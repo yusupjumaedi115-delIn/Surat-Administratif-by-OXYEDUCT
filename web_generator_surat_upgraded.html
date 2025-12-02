@@ -1,0 +1,229 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Oxyeduct — Surat Generator Futuristik</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#0f172a;
+  --card:#0b1220;
+  --accent:#2dd4bf;
+  --muted:#94a3b8;
+  --glass: rgba(255,255,255,0.03);
+  --glass-2: rgba(255,255,255,0.04);
+}
+*{box-sizing:border-box}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,Arial,sans-serif;background:
+linear-gradient(180deg,#071029 0%, #071a2a 60%), radial-gradient(600px 300px at 10% 10%, rgba(34,211,238,0.06), transparent), #071026;color:#e6eef8;-webkit-font-smoothing:antialiased}
+.container{max-width:1100px;margin:36px auto;padding:28px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border-radius:16px;box-shadow:0 10px 30px rgba(2,6,23,0.6);border:1px solid rgba(255,255,255,0.03);display:grid;grid-template-columns:420px 1fr;gap:24px;align-items:start}
+.header{display:flex;align-items:center;gap:12px;margin-bottom:8px}
+.brand-mark{width:54px;height:54px;border-radius:12px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#06b6d4,#7c3aed);font-weight:700;color:#021124}
+.h-title{font-size:18px;font-weight:700}
+.h-sub{font-size:12px;color:var(--muted);margin-top:4px}
+
+/* Sidebar form */
+.sidebar{padding:18px;background:linear-gradient(180deg, rgba(255,255,255,0.015), transparent);border-radius:12px;border:1px solid var(--glass-2)}
+.field{display:flex;flex-direction:column;margin-bottom:12px}
+.label{font-size:12px;color:var(--muted);margin-bottom:6px}
+.input, textarea, select{background:transparent;border:1px solid rgba(255,255,255,0.06);padding:10px 12px;border-radius:8px;color:inherit;font-size:14px;outline:none}
+textarea{min-height:120px;resize:vertical}
+.row{display:flex;gap:8px}
+.btn{background:linear-gradient(90deg,#06b6d4,#7c3aed);border:none;padding:10px 14px;border-radius:10px;color:#021124;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(124,58,237,0.18)}
+.btn.ghost{background:transparent;border:1px solid rgba(255,255,255,0.06);color:var(--muted);font-weight:600}
+.preview-area{padding:22px;border-radius:12px;background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01));border:1px solid rgba(255,255,255,0.03);min-height:420px;overflow:auto}
+.preview{background:linear-gradient(180deg,#f8fafc 0%, #eef2ff 100%);color:#071124;padding:22px;border-radius:8px;min-height:320px;box-shadow:0 6px 20px rgba(2,6,23,0.06)}
+.preview h2{margin:0 0 6px 0;font-size:18px}
+.preview p{margin:6px 0;color:#0f172a;font-size:14px;line-height:1.5}
+.footer{grid-column:1/-1;display:flex;justify-content:space-between;align-items:center;margin-top:12px;color:var(--muted);font-size:13px;padding-top:12px;border-top:1px dashed rgba(255,255,255,0.03)}
+.badge{background:rgba(255,255,255,0.03);padding:8px 10px;border-radius:999px;font-weight:600;color:var(--muted);font-size:13px}
+.controls{display:flex;gap:8px;flex-wrap:wrap}
+
+/* responsive */
+@media (max-width:980px){
+  .container{grid-template-columns:1fr; padding:18px}
+}
+</style>
+</head>
+<body>
+  <main class="container" role="main" aria-label="Oxyeduct Letter Generator">
+    <aside class="sidebar" aria-labelledby="sideTitle">
+      <div class="header">
+        <div class="brand-mark">OX</div>
+        <div>
+          <div class="h-title">Oxyeduct — Surat Generator</div>
+          <div class="h-sub">Cepat • Elegan • Sesuai standar Indonesia</div>
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Template</label>
+        <select id="template" class="input">
+          <option value="formal">Surat Lamaran Formal (Standar RI)</option>
+          <option value="dinas">Surat Dinas / Undangan</option>
+          <option value="resign">Surat Pengunduran Diri</option>
+          <option value="custom">Kosong — Buat sendiri</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="label">Bahasa</label>
+        <select id="lang" class="input">
+          <option value="id">Bahasa Indonesia</option>
+          <option value="en">English</option>
+        </select>
+      </div>
+
+      <div class="field">
+        <label class="label">Nama</label>
+        <input id="nama" class="input" placeholder="Nama lengkap (contoh: Ahmad Wijaya)" />
+      </div>
+
+      <div class="row">
+        <div style="flex:1" class="field">
+          <label class="label">Posisi / Keperluan</label>
+          <input id="position" class="input" placeholder="Posisi atau tujuan surat" />
+        </div>
+        <div style="width:140px" class="field">
+          <label class="label">Tanggal</label>
+          <input id="tanggal" class="input" type="date" />
+        </div>
+      </div>
+
+      <div class="field">
+        <label class="label">Alamat Penerima (opsional)</label>
+        <input id="toAddress" class="input" placeholder="Kepada Yth. HRD / Instansi ..." />
+      </div>
+
+      <div class="field">
+        <label class="label">Isi / Catatan (boleh panjang)</label>
+        <textarea id="body" placeholder="Ketik isi surat, atau pilih template untuk auto-fill..."></textarea>
+      </div>
+
+      <div class="field">
+        <label class="label">Tanda Tangan (nama untuk footer)</label>
+        <input id="signature" class="input" placeholder="Nama, atau jabatan" />
+      </div>
+
+      <div class="controls">
+        <button class="btn" id="generate">Generate</button>
+        <button class="btn ghost" id="reset">Reset</button>
+        <button class="btn ghost" id="downloadDoc">Download .doc</button>
+        <button class="btn ghost" id="downloadPdf">Print / Save PDF</button>
+      </div>
+
+      <div style="height:10px"></div>
+      <div style="font-size:13px;color:var(--muted)">Tip: Pilih template lalu klik <strong>Generate</strong>. Untuk tata bahasa otomatis, salin hasil ke editor dan gunakan fitur pemeriksa bahasa Anda.</div>
+    </aside>
+
+    <section>
+      <div class="preview-area" aria-live="polite">
+        <div id="preview" class="preview">
+          <h2>Pratinjau Surat</h2>
+          <p style="color:#334155">Isi surat akan muncul di sini setelah Anda klik <strong>Generate</strong>.</p>
+        </div>
+      </div>
+
+      <div class="footer" role="contentinfo">
+        <div class="badge">Oxyeduct • Dibuat oleh <a href="mailto:oxyeduct@yusupjumaedi" style="color:inherit;text-decoration:underline">oxyeduct@yusupjumaedi</a></div>
+        <div style="text-align:right;color:var(--muted);font-size:12px">Versi UI modern • Support export .doc & PDF</div>
+      </div>
+    </section>
+  </main>
+
+<script>
+// Template snippets (ID / EN)
+const TEMPLATES = {
+  formal: {
+    id: (data)=>`Kepada Yth.\n${data.toAddress || 'Bapak/Ibu HRD'}\nDi tempat\n\nDengan hormat,\n\nSaya yang bertanda tangan di bawah ini:\nNama : ${data.nama}\nPosisi yang dilamar : ${data.position}\n\nDengan ini mengajukan lamaran untuk posisi tersebut. ${data.body || 'Saya lampirkan CV dan dokumen pendukung lainnya.'}\n\nDemikian surat lamaran ini saya buat. Atas perhatian Bapak/Ibu saya ucapkan terima kasih.\n\nHormat saya,\n\n${data.signature || data.nama}`,
+    en: (data)=>`To: ${data.toAddress || 'Hiring Manager'}\n\nDear Sir/Madam,\n\nMy name is ${data.nama}. I am applying for the position of ${data.position}. ${data.body || 'Please find attached my CV and supporting documents.'}\n\nThank you for considering my application.\n\nSincerely,\n\n${data.signature || data.nama}`
+  },
+  dinas: {
+    id: (d)=>`Kepada Yth.\n${d.toAddress || 'Pimpinan Instansi'}\nDi tempat\n\nSehubungan dengan ${d.position || 'undangan/keperluan'}, kami bermaksud ...\n\n${d.body || 'Mohon konfirmasi kehadiran.'}\n\nHormat kami,\n\n${d.signature || d.nama}`,
+    en: (d)=>`To: ${d.toAddress || 'Institution Head'}\n\nRegarding ${d.position || 'the matter'}, we would like to ...\n\n${d.body || 'Please confirm.'}\n\nRegards,\n\n${d.signature || d.nama}`
+  },
+  resign: {
+    id: (d)=>`Kepada Yth.\n${d.toAddress || 'Pimpinan'}\nDi tempat\n\nSaya, ${d.nama}, menyampaikan pengunduran diri dari posisi ${d.position || ''} efektif terhitung ${d.tanggal || ''}.\n\n${d.body || 'Terima kasih atas kesempatan dan kerja sama yang telah diberikan.'}\n\nHormat saya,\n\n${d.signature || d.nama}`,
+    en: (d)=>`To: ${d.toAddress || 'Manager'}\n\nI, ${d.nama}, hereby resign from my position as ${d.position || ''}, effective ${d.tanggal || ''}.\n\n${d.body || 'Thank you for the opportunity and cooperation.'}\n\nSincerely,\n\n${d.signature || d.nama}`
+  }
+};
+
+function nl2br(s){ return s.replace(/\n/g,'<br>'); }
+
+function renderPreview(){
+  const tpl = document.getElementById('template').value;
+  const lang = document.getElementById('lang').value;
+  const data = {
+    nama: document.getElementById('nama').value.trim() || '---',
+    position: document.getElementById('position').value.trim() || '',
+    tanggal: document.getElementById('tanggal').value,
+    body: document.getElementById('body').value.trim(),
+    toAddress: document.getElementById('toAddress').value.trim(),
+    signature: document.getElementById('signature').value.trim()
+  };
+  let text = '';
+  if(tpl === 'custom'){
+    text = data.body || 'Tulis surat Anda di sini lalu klik Generate.';
+  } else {
+    const fn = TEMPLATES[tpl][lang] || TEMPLATES['formal'][lang];
+    text = fn(data);
+  }
+  const preview = document.getElementById('preview');
+  preview.innerHTML = `<h2>Pratinjau Surat</h2><div style="background:#fff;padding:14px;border-radius:8px;color:#071124">${nl2br(escapeHtml(text))}</div>`;
+}
+
+function escapeHtml(unsafe) {
+    return unsafe
+         .replaceAll("&","&amp;")
+         .replaceAll("<","&lt;")
+         .replaceAll(">","&gt;");
+}
+
+document.getElementById('generate').addEventListener('click', ()=>{
+  renderPreview();
+});
+
+document.getElementById('reset').addEventListener('click', ()=>{
+  document.getElementById('template').value='formal';
+  document.getElementById('lang').value='id';
+  document.getElementById('nama').value='';
+  document.getElementById('position').value='';
+  document.getElementById('tanggal').value='';
+  document.getElementById('body').value='';
+  document.getElementById('toAddress').value='';
+  document.getElementById('signature').value='';
+  renderPreview();
+});
+
+// Export .doc (simple)
+document.getElementById('downloadDoc').addEventListener('click', ()=>{
+  const previewEl = document.getElementById('preview');
+  const content = previewEl.innerHTML;
+  const header = "<html xmlns:o='urn:schemas-microsoft-com:office:office' xmlns:w='urn:schemas-microsoft-com:office:word' xmlns='http://www.w3.org/TR/REC-html40'><head><meta charset='utf-8'><title>Surat</title></head><body>";
+  const footer = "</body></html>";
+  const blob = new Blob([header + content + footer], {type:'application/msword'});
+  const url = URL.createObjectURL(blob);
+  const a = document.createElement('a');
+  a.href = url;
+  a.download = 'surat-oxyeduct.doc';
+  a.click();
+  URL.revokeObjectURL(url);
+});
+
+// Print / Save PDF (via browser)
+document.getElementById('downloadPdf').addEventListener('click', ()=>{
+  const w = window.open('','_blank');
+  const style = `<style>body{font-family:Inter,Arial,sans-serif;padding:40px;background:#fff;color:#071124} .doc{max-width:800px;margin:auto}</style>`;
+  w.document.write(`<html><head><title>Surat</title>${style}</head><body><div class="doc">${document.getElementById('preview').innerHTML}</div></body></html>`);
+  w.document.close();
+  w.focus();
+  // user will manually print/save as PDF
+  w.print();
+});
+
+// initial render
+renderPreview();
+</script>
+</body>
+</html>
